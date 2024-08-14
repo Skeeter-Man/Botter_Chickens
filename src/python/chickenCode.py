@@ -1,5 +1,5 @@
-import serial
 import RPi.GPIO as GPIO
+import serial
 import time
 
 # Serial port setup
@@ -13,13 +13,43 @@ Lights = 23
 Fan = 25
 TankLevel = 3  # Assuming analog to digital conversion pin, modify as needed
 
-GPIO.setmode(GPIO.BCM)  # Set GPIO mode to BCM or BOARD depending on your wiring
+GPIO.setmode(GPIO.BOARD)  # Set GPIO mode to BCM or BOARD depending on your wiring
 GPIO.setup(TankFill, GPIO.OUT)
 GPIO.setup(TankDrain, GPIO.OUT)
 GPIO.setup(Lights, GPIO.OUT)
 GPIO.setup(Fan, GPIO.OUT)
 GPIO.setup(TankLevel, GPIO.IN)
 
+def read_serial()
+    pass;
+
+def write_serial()
+    pass;
+
+def get_tank_level()
+    pass;
+
+def open_drain()
+    pass;
+
+def close_drain()
+    pass;
+
+def open_tank_fill()
+    pass;
+
+def close_tank_fill()
+    pass;
+
+def lights_on()
+    pass;
+
+def lights_off()
+    pass;
+    
+
+
+###  Converted coded from arduino below 
 def send_serial_command(command):
     ser.write(command.encode())
 
