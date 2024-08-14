@@ -53,16 +53,22 @@ def open_drain():
 
 def close_drain():
     GPIO.output(TankDrain, GPIO.LOW)
-    send_serial_command('ST<{"cmd_code":"set_text","type":"label","widget":"Water_Drain_Status","text":"Drain Closed"}>ET')
-    send_serial_command('ST<{"cmd_code":"set_visible","type":"widget","widget":"DrainClosed","visible":true}>ET')
-    send_serial_command('ST<{"cmd_code":"set_visible","type":"widget","widget":"DrainOpen","visible":false}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_text","type":"label","widget":"Water_Drain_Status","text":"Drain Closed"}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_visible","type":"widget","widget":"DrainClosed","visible":true}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_visible","type":"widget","widget":"DrainOpen","visible":false}>ET')
 
 
 def open_tank_fill():
     GPIO.output(TankFill, GPIO.HIGH)
-    send_serial_command('ST<{"cmd_code":"set_text","type":"label","widget":"Water_Drain_Status","text":"Drain Open"}>ET')
-    send_serial_command('ST<{"cmd_code":"set_visible","type":"widget","widget":"DrainClosed","visible":false}>ET')
-    send_serial_command('ST<{"cmd_code":"set_visible","type":"widget","widget":"DrainOpen","visible":true}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_text","type":"label","widget":"Water_Drain_Status","text":"Drain Open"}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_visible","type":"widget","widget":"DrainClosed","visible":false}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_visible","type":"widget","widget":"DrainOpen","visible":true}>ET')
 
 
 def close_tank_fill():
@@ -71,19 +77,25 @@ def close_tank_fill():
 
 def lights_on():
     GPIO.output(Lights, GPIO.HIGH)
-    send_serial_command('ST<{"cmd_code":"set_text","type":"label","widget":"Light_Status","text":"Lights On"}>ET')
-    send_serial_command('ST<{"cmd_code":"set_visible","type":"widget","widget":"LightsOff","visible":false}>ET')
-    send_serial_command('ST<{"cmd_code":"set_visible","type":"widget","widget":"LightsOn","visible":true}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_text","type":"label","widget":"Light_Status","text":"Lights On"}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_visible","type":"widget","widget":"LightsOff","visible":false}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_visible","type":"widget","widget":"LightsOn","visible":true}>ET')
 
 
-def lights_off():
+def lights_off(): 
     GPIO.output(Lights, GPIO.LOW)
-    send_serial_command('ST<{"cmd_code":"set_text","type":"label","widget":"Light_Status","text":"Lights Off"}>ET')
-    send_serial_command('ST<{"cmd_code":"set_visible","type":"widget","widget":"LightsOff","visible":true}>ET')
-    send_serial_command('ST<{"cmd_code":"set_visible","type":"widget","widget":"LightsOn","visible":false}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_text","type":"label","widget":"Light_Status","text":"Lights Off"}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_visible","type":"widget","widget":"LightsOff","visible":true}>ET')
+    send_serial_command(
+        'ST<{"cmd_code":"set_visible","type":"widget","widget":"LightsOn","visible":false}>ET')
 
-# Main funtion 
-def main():
+
+def main():  # Main funtion starts here
     while True:
         current_time = time.ctime(time.time())
         hmi_serial = serialcom.read(size=20)
@@ -96,4 +108,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         GPIO.cleanup()
         serialcom.close()
-
