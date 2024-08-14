@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Relay Control</title>
     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
     />
+
     <style>
       .container {
         margin-top: 50px;
@@ -39,48 +42,202 @@
       .toggle-btn.on::before {
         left: 30px;
       }
+
+      /* Switch starts here */
+      .rocker {
+        display: inline-block;
+        position: relative;
+        /*
+  SIZE OF SWITCH
+  ==============
+  All sizes are in em - therefore
+  changing the font-size here
+  will change the size of the switch.
+  See .rocker-small below as example.
+  */
+        font-size: 2em;
+        font-weight: bold;
+        text-align: center;
+        text-transform: uppercase;
+        color: #888;
+        width: 7em;
+        height: 4em;
+        overflow: hidden;
+        border-bottom: 0.5em solid #eee;
+      }
+
+      .rocker-small {
+        font-size: 0.75em; /* Sizes the switch */
+        margin: 1em;
+      }
+
+      .rocker::before {
+        content: "";
+        position: absolute;
+        top: 0.5em;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #999;
+        border: 0.5em solid #eee;
+        border-bottom: 0;
+      }
+
+      .rocker input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .switch-left,
+      .switch-right {
+        cursor: pointer;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 2.5em;
+        width: 3em;
+        transition: 0.2s;
+      }
+
+      .switch-left {
+        height: 2.4em;
+        width: 2.75em;
+        left: 0.85em;
+        bottom: 0.4em;
+        background-color: #ddd;
+        transform: rotate(15deg) skewX(15deg);
+      }
+
+      .switch-right {
+        right: 0.5em;
+        bottom: 0;
+        background-color: #028f00;
+        color: #fff;
+      }
+
+      .switch-left::before,
+      .switch-right::before {
+        content: "";
+        position: absolute;
+        width: 0.4em;
+        height: 2.45em;
+        bottom: -0.45em;
+        background-color: #ccc;
+        transform: skewY(-65deg);
+      }
+
+      .switch-left::before {
+        left: -0.4em;
+      }
+
+      .switch-right::before {
+        right: -0.375em;
+        background-color: transparent;
+        transform: skewY(65deg);
+      }
+
+      input:checked + .switch-left {
+        background-color: #ff0000;
+        color: #fff;
+        bottom: 0px;
+        left: 0.5em;
+        height: 2.5em;
+        width: 3em;
+        transform: rotate(0deg) skewX(0deg);
+      }
+
+      input:checked + .switch-left::before {
+        background-color: transparent;
+        width: 3.0833em;
+      }
+
+      input:checked + .switch-left + .switch-right {
+        background-color: #ddd;
+        color: #888;
+        bottom: 0.4em;
+        right: 0.8em;
+        height: 2.4em;
+        width: 2.75em;
+        transform: rotate(-15deg) skewX(-15deg);
+      }
+
+      input:checked + .switch-left + .switch-right::before {
+        background-color: #ccc;
+      }
+
+      /* Keyboard Users */
+      input:focus + .switch-left {
+        color: #333;
+      }
+
+      input:checked:focus + .switch-left {
+        color: #fff;
+      }
+
+      input:focus + .switch-left + .switch-right {
+        color: #fff;
+      }
+
+      input:checked:focus + .switch-left + .switch-right {
+        color: #333;
+      }
     </style>
   </head>
-  <body>
+  <body style="background: #000;">
     <div class="container">
-      <h1 class="text-center mb-5">Relay Control</h1>
+      <h1 class="text-center mb-5 text-warning">Relay Controls</h1>
 
-      <div class="row">
-        <div class="col-md-6 offset-md-3 relay-control text-center">
-          <div
-            class="toggle-btn {{ 'on' if relay_states[0] else '' }}"
-            onclick="toggleRelay(0)"
-          ></div>
-          <p>Lights (GPIO17)</p>
-        </div>
+      <div class="row ">
+        <label class="rocker {{ 'on' if relay_states[0] else '' }}"
+          onclick="toggleRelay(0)">
+          <input type="checkbox" checked></input>
+          <span class="switch-left">Off</span>
+          <span class="switch-right">On</span>
+        </label>
+        <p style="color: yellow;">Lights (GPIO17)</p>
+      </div>
 
-        <div class="col-md-6 offset-md-3 relay-control text-center">
-          <div
-            class="toggle-btn {{ 'on' if relay_states[1] else '' }}"
-            onclick="toggleRelay(1)"
-          ></div>
-          <p>Fan (GPIO22)</p>
-        </div>
+      <div class="row ">
+        <label class="rocker {{ 'on' if relay_states[1] else '' }}"
+          onclick="toggleRelay(1)">
+          <input type="checkbox" checked></input>
+          <span class="switch-left">Off</span>
+          <span class="switch-right">On</span>
+        </label>
+        <p style="color: yellow;">Fan (GPIO22)</p>
+      </div>
 
-        <div class="col-md-6 offset-md-3 relay-control text-center">
-          <div
-            class="toggle-btn {{ 'on' if relay_states[2] else '' }}"
-            onclick="toggleRelay(2)"
-          ></div>
-          <p>Drain Open (GPIO23)</p>
-        </div>
+      <div class="row ">
+        <label class="rocker {{ 'on' if relay_states[2] else '' }}"
+          onclick="toggleRelay(2)">
+          <input type="checkbox" checked></input>
+          <span class="switch-left">Off</span>
+          <span class="switch-right">On</span>
+        </label>
+        <p style="color: yellow;">Drain Open (GPIO23)</p>
+      </div>
 
-        <div class="col-md-6 offset-md-3 relay-control text-center">
-          <div
-            class="toggle-btn {{ 'on' if relay_states[3] else '' }}"
-            onclick="toggleRelay(3)"
-          ></div>
-          <p>Water (GPIO24)</p>
-        </div>
+      <div class="row ">
+        <label class="rocker {{ 'on' if relay_states[3] else '' }}"
+          onclick="toggleRelay(3)">
+          <input type="checkbox" checked></input>
+          <span class="switch-left">Off</span>
+          <span class="switch-right">On</span>
+        </label>
+        <p style="color: yellow;">Water (GPIO24)</p>
+      </div>
+       
       </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
     <script>
       function toggleRelay(relayId) {
         fetch("/toggle/" + relayId, { method: "POST" }).then(() => {
