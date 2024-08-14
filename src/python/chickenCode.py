@@ -20,32 +20,32 @@ GPIO.setup(Lights, GPIO.OUT)
 GPIO.setup(Fan, GPIO.OUT)
 GPIO.setup(TankLevel, GPIO.IN)
 
-def read_serial()
-    pass;
+def read_serial():
+    pass
 
-def write_serial()
-    pass;
+def write_serial():
+    pass
 
-def get_tank_level()
-    pass;
+def get_tank_level():
+    pass
 
-def open_drain()
-    pass;
+def open_drain():
+    GPIO.output(TankDrain, GPIO.HIGH)
 
-def close_drain()
-    pass;
+def close_drain():
+    GPIO.output(TankDrain, GPIO.LOW)
 
-def open_tank_fill()
-    pass;
+def open_tank_fill():
+    pass
 
-def close_tank_fill()
-    pass;
+def close_tank_fill():
+    pass
 
-def lights_on()
-    pass;
+def lights_on():
+    GPIO.output(Lights, GPIO.HIGH)
 
-def lights_off()
-    pass;
+def lights_off():
+    GPIO.output(Lights, GPIO.LOW)
     
 
 
