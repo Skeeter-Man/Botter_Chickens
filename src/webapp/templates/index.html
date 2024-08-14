@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relay Control</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+    />
+    <style>
+      .container {
+        margin-top: 50px;
+      }
+      .relay-control {
+        margin-bottom: 20px;
+      }
+      .toggle-btn {
+        width: 60px;
+        height: 30px;
+        background-color: #ccc;
+        border-radius: 15px;
+        position: relative;
+        cursor: pointer;
+      }
+      .toggle-btn::before {
+        content: "";
+        width: 30px;
+        height: 30px;
+        background-color: white;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        transition: all 0.3s;
+      }
+      .toggle-btn.on {
+        background-color: green;
+      }
+      .toggle-btn.on::before {
+        left: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center mb-5">Relay Control</h1>
+
+      <div class="row">
+        <div class="col-md-6 offset-md-3 relay-control text-center">
+          <div
+            class="toggle-btn {{ 'on' if relay_states[0] else '' }}"
+            onclick="toggleRelay(0)"
+          ></div>
+          <p>Lights (GPIO17)</p>
+        </div>
+
+        <div class="col-md-6 offset-md-3 relay-control text-center">
+          <div
+            class="toggle-btn {{ 'on' if relay_states[1] else '' }}"
+            onclick="toggleRelay(1)"
+          ></div>
+          <p>Fan (GPIO22)</p>
+        </div>
+
+        <div class="col-md-6 offset-md-3 relay-control text-center">
+          <div
+            class="toggle-btn {{ 'on' if relay_states[2] else '' }}"
+            onclick="toggleRelay(2)"
+          ></div>
+          <p>Drain Open (GPIO23)</p>
+        </div>
+
+        <div class="col-md-6 offset-md-3 relay-control text-center">
+          <div
+            class="toggle-btn {{ 'on' if relay_states[3] else '' }}"
+            onclick="toggleRelay(3)"
+          ></div>
+          <p>Water (GPIO24)</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+      function toggleRelay(relayId) {
+        fetch("/toggle/" + relayId, { method: "POST" }).then(() => {
+          document
+            .querySelectorAll(".toggle-btn")
+            [relayId].classList.toggle("on");
+        });
+      }
+    </script>
+  </body>
+</html>
