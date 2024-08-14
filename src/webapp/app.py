@@ -1,7 +1,9 @@
 '''
   Controlling 4-ch relay with raspberry pi and using Flask  
   Used the following links as examples:
+    https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d
     https://www.serasidis.gr/circuits/rpi_dht22/
+    https://www.reddit.com/r/flask/comments/13ootfw/flask_and_websocket_realtime_message_exchange/
   
   Connections: (using BCM numbering)
   +------------------------------------+ 
@@ -23,6 +25,7 @@ Created: 8/14/24
 '''
 
 from flask import Flask, render_template, request
+import RPi.GPIO
 
 app = Flask(__name__)
 
@@ -30,14 +33,14 @@ app = Flask(__name__)
 #########################################################################
 
 # # Set up GPIO Pins 
-relay_pins = [17, 22, 23, 24]  # GPIO17, GPIO22, GPIO23, GPIO24
-# GPIO.setmode(GPIO.BCM)
-# GPIO.setup(relay_pins, GPIO.OUT)
+relay_pins = [17, 18, 27, 22]  # GPIO17, GPIO22, GPIO23, GPIO24
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(relay_pins, GPIO.OUT)
 
 # # Initial state for relays
 relay_states = [False, False, False, False]
-# for pin, state in zip(relay_pins, relay_states):
-#     GPIO.output(pin, state)
+for pin, state in zip(relay_pins, relay_states):
+    GPIO.output(pin, state)
 
 #########################################################################
 
@@ -49,7 +52,7 @@ def index():
 def toggle(relay_id):
     relay_states[relay_id] = not relay_states[relay_id]
     ## Uncomment line below for raspberry pi
-    # GPIO.output(relay_pins[relay_id], relay_states[relay_id])
+    GPIO.output(relay_pins[relay_id], relay_states[relay_id])
     return ('', 204)  # No content response
 
 

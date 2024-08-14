@@ -15,6 +15,7 @@ try:  # Try selecting the first item in the array
     usb_port = active_ports[0]
 except Exception as ex:  # if no port is in the array, exit with error
     print(f"ERROR - An error has occured: {type(ex).__name__} - {ex} ")
+    print(f"ERROR - An error has occured: {type(ex).__name__} - {ex} ")
     sys.exit(1)
 
 # Serial port setup
