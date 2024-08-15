@@ -1,1 +1,9 @@
 Initial README
+
+CH340 Driver and Instructions
+https://learn.sparkfun.com/tutorials/how-to-install-ch340-drivers/all#drivers-if-you-need-them
+
+https://archive.fabacademy.org/2017/fablabverket/students/100/web/assignments/week16/pyserial_tutorial.html
+
+Correct way to connect jumpers to UART to USB
+https://forum.stoneitech.com/topic/rs232/
