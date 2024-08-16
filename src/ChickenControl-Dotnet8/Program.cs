@@ -7,8 +7,12 @@ internal class Program
     #region Main Code Block
     // Start of Main Code Block #########################################################################
 
-    const string portName = "/dev/ttyUSB1";
-
+    // Get pin values from appsettings.
+    const int LightGPIO = config.GetValue<int>("GpioPinSettings:Lights") ?? 0; // This will finde the section named 'GpioPinSettings' and the value of 'Lights'. If not found it will set the value to zero
+    const int DrainGPIO = config.GetValue<int>("GpioPinSettings:Drain") ?? 0; // This will finde the section named 'GpioPinSettings' and the value of 'Drain'. If not found it will set the value to zero
+    const int WaterGPIO = config.GetValue<int>("GpioPinSettings:Water") ?? 0; // This will finde the section named 'GpioPinSettings' and the value of 'Water'. If not found it will set the value to zero
+    const int TempGPIO = config.GetValue<int>("GpioPinSettings:Temp") ?? 0; // This will finde the section named 'GpioPinSettings' and the value of 'Temp'. If not found it will set the value to zero
+    const int FanGPIO = config.GetValue<int>("GpioPinSettings:Fan") ?? 0; // This will finde the section named 'GpioPinSettings' and the value of 'Fan'. If not found it will set the value to zero
 
     private static void Main(string[] args)
     {
@@ -260,7 +264,7 @@ internal class Program
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOn\",\"visible\": true}>ET");
     }
 
-      /// <summary>
+    /// <summary>
     /// Method to Close Drain
     /// </summary>
     /// <param name="sp"></param>
@@ -281,10 +285,10 @@ internal class Program
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Fill Open\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOff\",\"visible\": false}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOn\",\"visible\": true}>ET");
-        
+
     }
 
-   
+
     // Methods ########################################################################################
     #endregion
 }
