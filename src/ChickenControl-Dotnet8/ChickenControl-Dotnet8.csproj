@@ -9,10 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="iot.device.bindings" Version="3.2.0" />
     <PackageReference Include="microsoft.extensions.configuration" Version="8.0.0" />
     <PackageReference Include="microsoft.extensions.configuration.binder" Version="8.0.2" />
     <PackageReference Include="microsoft.extensions.configuration.json" Version="8.0.0" />
     <PackageReference Include="microsoft.extensions.configuration.usersecrets" Version="8.0.0" />
+    <PackageReference Include="system.device.gpio" Version="3.2.0" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
   </ItemGroup>
 

@@ -54,6 +54,10 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
+            "iot.device.bindings": {
+              "target": "Package",
+              "version": "[3.2.0, )"
+            },
             "microsoft.extensions.configuration": {
               "target": "Package",
               "version": "[8.0.0, )"
@@ -69,6 +73,10 @@
             "microsoft.extensions.configuration.usersecrets": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "system.device.gpio": {
+              "target": "Package",
+              "version": "[3.2.0, )"
             }
           },
           "imports": [

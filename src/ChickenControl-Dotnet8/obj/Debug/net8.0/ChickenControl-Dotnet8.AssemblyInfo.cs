@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChickenControl-Dotnet8")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c158a1a1e8255478b1e52a25a4ac60ccc1eb0766")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+195c418bf0aecec9f4a1a93dae4637401e622943")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChickenControl-Dotnet8")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChickenControl-Dotnet8")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
