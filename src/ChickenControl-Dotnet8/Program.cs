@@ -107,27 +107,49 @@ internal class Program
         Console.WriteLine($"\t\t{utf8Data}");
 
         //Lights on
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 4C 69 67 68 74 30 31 02 3E 45 54 F6 21"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 4c 69 67 68 74 30 31 02 3E 45 54 F6 21"))
         {
             LightsOn(sp);
         }
 
         // Lights off
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 4C 69 67 68 74 30 32 02 3E 45 54 F6 65"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 4c 69 67 68 74 30 32 02 3E 45 54 F6 65"))
         {
             LightsOff(sp);
         }
+        // Fan On
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 06 46 61 6e 30 31 02 3E 45 54 1C F0"))
+        {
+            FanOn(sp);
+        }
+        //Fan Off
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 06 46 61 6e 30 32 02 3E 45 54 1C B4"))
+        {
+            FanOff(sp);
+        }
 
         //Drain Open
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 44 72 61 69 6E 30 31 02 3E 45 54 4B 2A"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 44 72 61 69 6e 30 31 02 3E 45 54 4B 2A"))
         {
             DrainOpen(sp);
         }
 
         // Drain close
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 44 72 61 69 6E 30 32 02 3E 45 54 4B 6E"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 44 72 61 69 6e 30 32 02 3E 45 54 4B 6E"))
         {
             DrainClosed(sp);
+        }
+
+        //Fill Open
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 07 46 69 6c 6c 30 31 02 3E 45 54 97 16"))
+        {
+            FillOpen(sp);
+        }
+
+        // Fill close
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 07 46 69 6c 6c 30 32 02 3E 45 54 97 52"))
+        {
+            FillClosed(sp);
         }
 
         // Toggle Swtich 
@@ -212,6 +234,53 @@ internal class Program
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOn\",\"visible\": true}>ET");
     }
 
+    /// <summary>
+    /// Method to turn off Fan
+    /// </summary>
+    /// <param name="sp"></param>
+    /// <param name="hexData"></param>
+    private static void FanOff(SerialPort sp)
+    {
+        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Light_Status\",\"text\":\"Fan Off\"}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOff\",\"visible\": true}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOn\",\"visible\": false}>ET");
+    }
+
+    /// <summary>
+    /// Method to turn on Fan
+    /// </summary>
+    /// <param name="sp"></param>
+    private static void FanOn(SerialPort sp)
+    {
+        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Fan_Status\",\"text\":\"Fan On\"}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOff\",\"visible\": false}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOn\",\"visible\": true}>ET");
+    }
+
+      /// <summary>
+    /// Method to Close Drain
+    /// </summary>
+    /// <param name="sp"></param>
+    /// <param name="hexData"></param>
+    private static void FillClosed(SerialPort sp)
+    {
+        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Drain_Status\",\"text\":\"Drain Closed\"}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainClosed\",\"visible\": true}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainOpen\",\"visible\": false}>ET");
+    }
+
+    /// <summary>
+    /// Method to Open Drain
+    /// </summary>
+    /// <param name="sp"></param>
+    private static void FillOpen(SerialPort sp)
+    {
+        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Drain_Status\",\"text\":\"Drain Closed\"}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainClosed\",\"visible\": false}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainOpen\",\"visible\": true}>ET");
+    }
+
+   
     // Methods ########################################################################################
     #endregion
 }
