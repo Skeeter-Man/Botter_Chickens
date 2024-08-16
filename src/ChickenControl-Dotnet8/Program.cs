@@ -1,37 +1,51 @@
 ﻿using System.IO.Ports;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 internal class Program
-{   
+{
     #region Main Code Block
     // Start of Main Code Block #########################################################################
 
     const string portName = "/dev/ttyUSB1";
+
 
     private static void Main(string[] args)
     {
         // Start of app
         Console.WriteLine("Begin the Cluckinator!!!");
 
-        // Configure Serial communication
-        SerialPort serialPort = new SerialPort
-        {
-            PortName = portName,
-            BaudRate = 115200,
-            Parity = Parity.None,
-            StopBits = StopBits.One,
-            DataBits = 8,
-            Handshake = Handshake.None
-        };
+        // Configuration to access appsettings.json
+        // this is where you can store settings that can easily be changed without a full rebuild of the app
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
-        // Setup event callback that will listen for serial communication coming from the HMI
-        serialPort.DataReceived += new SerialDataReceivedEventHandler(DataRecievedHandler);
+        IConfiguration config = builder.Build();
 
-        // Open the serial port. The app will fail if the port is not avaliable to mis-configured
+        SerialPort serialPort = new SerialPort();
+
+        // try catch will attempt to handle errors and close the app if an error is encountered
         try
         {
+            // Get values from appsettings.json
+            var comPort = config.GetValue<string>("SerialSettings:ComPort") ?? "";
+            var baudRate = int.Parse(config.GetValue<string>("SerialSettings:BaudRate") ?? "0");
+
+            // Configure Serial communication
+            serialPort.PortName = comPort;
+            serialPort.BaudRate = baudRate;
+            serialPort.Parity = Parity.None;
+            serialPort.StopBits = StopBits.One;
+            serialPort.DataBits = 8;
+            serialPort.Handshake = Handshake.None;
+
+            // Setup event callback that will listen for serial communication coming from the HMI
+            serialPort.DataReceived += new SerialDataReceivedEventHandler(DataRecievedHandler);
+
+            // Open the serial port. The app will fail if the port is not avaliable to mis-configured
             serialPort.Open();
-            Console.WriteLine($"Listening on {portName}...");
+            Console.WriteLine($"Listening on {comPort}...");
             Console.WriteLine("Press any key to exit.");
 
             GetLastStates();
@@ -64,7 +78,7 @@ internal class Program
     /// <exception cref="NotImplementedException"></exception>
     private static void GetLastStates()
     {
-        throw new NotImplementedException();
+        // Todo: Add code to find last saved state of the devices
     }
 
     /// <summary>
