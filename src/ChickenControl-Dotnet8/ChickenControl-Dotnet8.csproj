@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="microsoft.extensions.configuration" Version="8.0.0" />
+    <PackageReference Include="microsoft.extensions.configuration.binder" Version="8.0.2" />
+    <PackageReference Include="microsoft.extensions.configuration.json" Version="8.0.0" />
+    <PackageReference Include="microsoft.extensions.configuration.usersecrets" Version="8.0.0" />
     <PackageReference Include="System.IO.Ports" Version="8.0.0" />
   </ItemGroup>
 

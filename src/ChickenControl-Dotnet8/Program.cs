@@ -2,9 +2,12 @@
 using System.Text;
 
 internal class Program
-{
+{   
     #region Main Code Block
     // Start of Main Code Block #########################################################################
+
+    const string portName = "/dev/ttyUSB1";
+
     private static void Main(string[] args)
     {
         // Start of app
@@ -13,7 +16,7 @@ internal class Program
         // Configure Serial communication
         SerialPort serialPort = new SerialPort
         {
-            PortName = "COM9",
+            PortName = portName,
             BaudRate = 115200,
             Parity = Parity.None,
             StopBits = StopBits.One,
@@ -28,7 +31,7 @@ internal class Program
         try
         {
             serialPort.Open();
-            Console.WriteLine("Listening on COM9...");
+            Console.WriteLine($"Listening on {portName}...");
             Console.WriteLine("Press any key to exit.");
 
             GetLastStates();
@@ -47,8 +50,8 @@ internal class Program
                 serialPort.Close();
             }
         }
-
     }
+
     // End of Main Code Block #########################################################################
     #endregion
 
