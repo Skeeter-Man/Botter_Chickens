@@ -107,47 +107,47 @@ internal class Program
         Console.WriteLine($"\t\t{utf8Data}");
 
         //Lights on
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 4c 69 67 68 74 30 31 02 3E 45 54 F6 21"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 4C 69 67 68 74 30 31 02 3E 45 54 F6 21"))
         {
             LightsOn(sp);
         }
 
         // Lights off
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 4c 69 67 68 74 30 32 02 3E 45 54 F6 65"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 4C 69 67 68 74 30 32 02 3E 45 54 F6 65"))
         {
             LightsOff(sp);
         }
         // Fan On
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 06 46 61 6e 30 31 02 3E 45 54 1C F0"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 06 46 61 6E 30 31 02 3E 45 54 1C F0"))
         {
             FanOn(sp);
         }
         //Fan Off
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 06 46 61 6e 30 32 02 3E 45 54 1C B4"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 06 46 61 6E 30 32 02 3E 45 54 1C B4"))
         {
             FanOff(sp);
         }
 
         //Drain Open
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 44 72 61 69 6e 30 31 02 3E 45 54 4B 2A"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 44 72 61 69 6E 30 31 02 3E 45 54 4B 2A"))
         {
             DrainOpen(sp);
         }
 
         // Drain close
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 44 72 61 69 6e 30 32 02 3E 45 54 4B 6E"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 08 44 72 61 69 6E 30 32 02 3E 45 54 4B 6E"))
         {
             DrainClosed(sp);
         }
 
         //Fill Open
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 07 46 69 6c 6c 30 31 02 3E 45 54 97 16"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 07 46 69 6C 6C 30 31 02 3E 45 54 97 16"))
         {
             FillOpen(sp);
         }
 
         // Fill close
-        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 07 46 69 6c 6c 30 32 02 3E 45 54 97 52"))
+        if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 07 46 69 6C 6C 30 32 02 3E 45 54 97 52"))
         {
             FillClosed(sp);
         }
