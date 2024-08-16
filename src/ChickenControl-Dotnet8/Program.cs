@@ -1,5 +1,4 @@
 ﻿using System.IO.Ports;
-using System.device.GPIO;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Device.Gpio;
