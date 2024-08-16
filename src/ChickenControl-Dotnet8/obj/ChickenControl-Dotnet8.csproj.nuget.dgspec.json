@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Michael\\source\\repos\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\ChickenControl-Dotnet8.csproj": {}
+    "C:\\Users\\tbott\\Documents\\GitHub\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\ChickenControl-Dotnet8.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Michael\\source\\repos\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\ChickenControl-Dotnet8.csproj": {
+    "C:\\Users\\tbott\\Documents\\GitHub\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\ChickenControl-Dotnet8.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Michael\\source\\repos\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\ChickenControl-Dotnet8.csproj",
+        "projectUniqueName": "C:\\Users\\tbott\\Documents\\GitHub\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\ChickenControl-Dotnet8.csproj",
         "projectName": "ChickenControl-Dotnet8",
-        "projectPath": "C:\\Users\\Michael\\source\\repos\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\ChickenControl-Dotnet8.csproj",
-        "packagesPath": "C:\\Users\\Michael\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Michael\\source\\repos\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\obj\\",
+        "projectPath": "C:\\Users\\tbott\\Documents\\GitHub\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\ChickenControl-Dotnet8.csproj",
+        "packagesPath": "C:\\Users\\tbott\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tbott\\Documents\\GitHub\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Michael\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\tbott\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -90,31 +83,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.linux-arm64",
-              "version": "[8.0.5, 8.0.5]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.linux-arm64",
-              "version": "[8.0.5, 8.0.5]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.linux-arm64",
-              "version": "[8.0.5, 8.0.5]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "linux-arm64": {
-          "#import": []
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
