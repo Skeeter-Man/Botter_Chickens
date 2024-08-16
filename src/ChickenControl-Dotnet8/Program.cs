@@ -6,9 +6,7 @@ using System.Device.Gpio;
 internal class Program
 {
     #region Main Code Block
-    // Start of Main Code Block #########################################################################
-
- 
+    // Start of Main Code Block ######################################################################### 
 
     private static void Main(string[] args)
     {
@@ -40,7 +38,7 @@ internal class Program
             serialPort.DataBits = 8;
             serialPort.Handshake = Handshake.None;
 
-            //GPIO Values from appsettings.json
+            //GPIO Values from appsettings.json            
             int LightGPIO = config.GetValue<int>("GpioPinSettings:Lights"); // This will finde the section named 'GpioPinSettings' and the value of 'Lights'. If not found it will set the value to zero
             int DrainGPIO = config.GetValue<int>("GpioPinSettings:Drain"); // This will finde the section named 'GpioPinSettings' and the value of 'Drain'. If not found it will set the value to zero
             int WaterGPIO = config.GetValue<int>("GpioPinSettings:Water"); // This will finde the section named 'GpioPinSettings' and the value of 'Water'. If not found it will set the value to zero
@@ -150,13 +148,13 @@ internal class Program
         //Fill Open
         if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 07 46 69 6C 6C 30 31 02 3E 45 54 97 16"))
         {
-            FillOpen(sp);
+            WaterOn(sp);
         }
 
         // Fill close
         if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 01 00 07 46 69 6C 6C 30 32 02 3E 45 54 97 52"))
         {
-            FillClosed(sp);
+            WaterOff(sp);
         }
 
         // Toggle Swtich 
@@ -180,8 +178,8 @@ internal class Program
     /// <param name="sp"></param>
     private static void ToggleOff(SerialPort sp)
     {
-        LightsOff(sp);
-        DrainClosed(sp);
+        //LightsOff(sp);
+        //DrainClosed(sp);
     }
 
     /// <summary>
@@ -190,8 +188,8 @@ internal class Program
     /// <param name="sp"></param>
     private static void ToggleOn(SerialPort sp)
     {
-        LightsOn(sp);
-        DrainOpen(sp);
+        //LightsOn(sp);
+        //DrainOpen(sp);
     }
 
     /// <summary>
@@ -208,6 +206,20 @@ internal class Program
         }
     }
 
+    private static int GetPinNumberByName(string pinName)
+    {
+        // Configuration to access appsettings.json
+        // this is where you can store settings that can easily be changed without a full rebuild of the app
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+        IConfiguration config = builder.Build();
+
+        //GPIO Values from appsettings.json            
+        return config.GetValue<int>($"GpioPinSettings:{pinName}"); // This will finde the section named 'GpioPinSettings' and the value of the pinName. If not found it will set the value to zero
+    }
+
     /// <summary>
     /// Method to turn off lights
     /// </summary>
@@ -215,8 +227,10 @@ internal class Program
     /// <param name="hexData"></param>
     private static void LightsOff(SerialPort sp)
     {
+        var pin = GetPinNumberByName("Lights");
+
         // Change pin state to high
-        ModifyGpioPinState(LightGPIO, PinValue.Low);
+        ModifyGpioPinState(pin, PinValue.Low);
 
         // Modify the HMI display
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Light_Status\",\"text\":\"Lights Off\"}>ET");
@@ -224,22 +238,22 @@ internal class Program
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOn\",\"visible\": false}>ET");
     }
 
-
     /// <summary>
     /// Method to turn on lights
     /// </summary>
     /// <param name="sp"></param>
     private static void LightsOn(SerialPort sp)
     {
+        var pin = GetPinNumberByName("Lights");
+
         // Change pin state to high
-        ModifyGpioPinState(LightGPIO, PinValue.High);
+        ModifyGpioPinState(pin, PinValue.High);
 
         // Modify the HMI display
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Light_Status\",\"text\":\"Lights On\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOff\",\"visible\": false}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOn\",\"visible\": true}>ET");
     }
-
 
     /// <summary>
     /// Method to close the drain
@@ -248,7 +262,10 @@ internal class Program
     /// <param name="hexData"></param>
     private static void DrainClosed(SerialPort sp)
     {
-        ModifyGpioPinState(DrainGPIO, PinValue.Low);
+        var pin = GetPinNumberByName("Drain");
+
+        ModifyGpioPinState(pin, PinValue.Low);
+
         // Modify the HMI display
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Drain_Status\",\"text\":\"Drain Closed\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainClosed\",\"visible\": true}>ET");
@@ -262,13 +279,14 @@ internal class Program
     /// <param name="hexData"></param>
     private static void DrainOpen(SerialPort sp)
     {
-        ModifyGpioPinState(DrainGPIO, PinValue.High);
+        var pin = GetPinNumberByName("Drain");
+
+        ModifyGpioPinState(pin, PinValue.High);
 
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Drain_Status\",\"text\":\"Drain Open\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainClosed\",\"visible\": false}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainOpen\",\"visible\": true}>ET");
     }
-
 
     /// <summary>
     /// Method to turn off Fan
@@ -277,7 +295,9 @@ internal class Program
     /// <param name="hexData"></param>
     private static void FanOff(SerialPort sp)
     {
-        ModifyGpioPinState(FanGPIO, PinValue.Low);
+        var pin = GetPinNumberByName("Fan");
+
+        ModifyGpioPinState(pin, PinValue.Low);
 
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Fan_Status\",\"text\":\"Fan Off\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOff\",\"visible\": true}>ET");
@@ -290,8 +310,9 @@ internal class Program
     /// <param name="sp"></param>
     private static void FanOn(SerialPort sp)
     {
+        var pin = GetPinNumberByName("Fan");
 
-        ModifyGpioPinState(FanGPIO, PinValue.High);
+        ModifyGpioPinState(pin, PinValue.High);
 
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Fan_Status\",\"text\":\"Fan On\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOff\",\"visible\": false}>ET");
@@ -303,9 +324,11 @@ internal class Program
     /// </summary>
     /// <param name="sp"></param>
     /// <param name="hexData"></param>
-    private static void FillClosed(SerialPort sp)
+    private static void WaterOff(SerialPort sp)
     {
-        ModifyGpioPinState(WaterGPIO, PinValue.High);
+        var pin = GetPinNumberByName("Water");
+
+        ModifyGpioPinState(pin, PinValue.High);
 
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Fill Closed\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOff\",\"visible\": true}>ET");
@@ -316,9 +339,11 @@ internal class Program
     /// Method to Open Drain
     /// </summary>
     /// <param name="sp"></param>
-    private static void FillOpen(SerialPort sp)
+    private static void WaterOn(SerialPort sp)
     {
-        ModifyGpioPinState(WaterGPIO, PinValue.High);
+        var pin = GetPinNumberByName("Fan");
+
+        ModifyGpioPinState(pin, PinValue.High);
 
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Fill Open\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOff\",\"visible\": false}>ET");
