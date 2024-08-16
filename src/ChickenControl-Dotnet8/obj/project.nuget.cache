@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Doz96TUPKVs=",
+  "dgSpecHash": "2Ira3gqGVS8=",
   "success": true,
   "projectFilePath": "C:\\Users\\Michael\\source\\repos\\Botter_Chickens\\src\\ChickenControl-Dotnet8\\ChickenControl-Dotnet8.csproj",
   "expectedPackageFiles": [
@@ -35,7 +35,10 @@
     "C:\\Users\\Michael\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512",
     "C:\\Users\\Michael\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
     "C:\\Users\\Michael\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512",
-    "C:\\Users\\Michael\\.nuget\\packages\\unitsnet\\5.31.0\\unitsnet.5.31.0.nupkg.sha512"
+    "C:\\Users\\Michael\\.nuget\\packages\\unitsnet\\5.31.0\\unitsnet.5.31.0.nupkg.sha512",
+    "C:\\Users\\Michael\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-arm64\\8.0.5\\microsoft.netcore.app.runtime.linux-arm64.8.0.5.nupkg.sha512",
+    "C:\\Users\\Michael\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-arm64\\8.0.5\\microsoft.aspnetcore.app.runtime.linux-arm64.8.0.5.nupkg.sha512",
+    "C:\\Users\\Michael\\.nuget\\packages\\microsoft.netcore.app.host.linux-arm64\\8.0.5\\microsoft.netcore.app.host.linux-arm64.8.0.5.nupkg.sha512"
   ],
   "logs": []
 }
