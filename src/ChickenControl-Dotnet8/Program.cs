@@ -1,6 +1,8 @@
 ﻿using System.IO.Ports;
+using System.device.GPIO;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using System.Device.Gpio;
 
 internal class Program
 {
@@ -195,12 +197,61 @@ internal class Program
     }
 
     /// <summary>
+    /// Control the pin values from this method
+    /// </summary>
+    /// <param name="pinNumber"></param>
+    /// <param name="pinValue"></param>
+    private static void ModifyGpioPinState(int pinNumber, PinValue pinValue)
+    {
+        using (var gpioController = new GpioController())
+        {
+            gpioController.OpenPin(pinNumber, PinMode.Output);
+            gpioController.Write(pinNumber, pinValue);
+        }
+    }
+
+    /// <summary>
+    /// Method to turn off lights
+    /// </summary>
+    /// <param name="sp"></param>
+    /// <param name="hexData"></param>
+    private static void LightsOff(SerialPort sp)
+    {
+        // Change pin state to high
+        ModifyGpioPinState(LightGPIO, PinValue.Low);
+
+        // Modify the HMI display
+        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Light_Status\",\"text\":\"Lights Off\"}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOff\",\"visible\": true}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOn\",\"visible\": false}>ET");
+    }
+
+
+    /// <summary>
+    /// Method to turn on lights
+    /// </summary>
+    /// <param name="sp"></param>
+    private static void LightsOn(SerialPort sp)
+    {
+        // Change pin state to high
+        ModifyGpioPinState(LightGPIO, PinValue.High);
+
+        // Modify the HMI display
+        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Light_Status\",\"text\":\"Lights On\"}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOff\",\"visible\": false}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOn\",\"visible\": true}>ET");
+    }
+
+
+    /// <summary>
     /// Method to close the drain
     /// </summary>
     /// <param name="sp"></param>
     /// <param name="hexData"></param>
     private static void DrainClosed(SerialPort sp)
     {
+
+        // Modify the HMI display
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Drain_Status\",\"text\":\"Drain Closed\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainClosed\",\"visible\": true}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainOpen\",\"visible\": false}>ET");
@@ -218,28 +269,6 @@ internal class Program
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainOpen\",\"visible\": true}>ET");
     }
 
-    /// <summary>
-    /// Method to turn off lights
-    /// </summary>
-    /// <param name="sp"></param>
-    /// <param name="hexData"></param>
-    private static void LightsOff(SerialPort sp)
-    {
-        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Light_Status\",\"text\":\"Lights Off\"}>ET");
-        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOff\",\"visible\": true}>ET");
-        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOn\",\"visible\": false}>ET");
-    }
-
-    /// <summary>
-    /// Method to turn on lights
-    /// </summary>
-    /// <param name="sp"></param>
-    private static void LightsOn(SerialPort sp)
-    {
-        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Light_Status\",\"text\":\"Lights On\"}>ET");
-        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOff\",\"visible\": false}>ET");
-        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"LightsOn\",\"visible\": true}>ET");
-    }
 
     /// <summary>
     /// Method to turn off Fan
