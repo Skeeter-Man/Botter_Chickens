@@ -40,6 +40,9 @@ internal class Program
             serialPort.DataBits = 8;
             serialPort.Handshake = Handshake.None;
 
+            //GPIO Values from appsettings.json
+            int Fan = int.Parse(config.GetValue<string>("GpioPinSettings:Fan") ?? "");
+
             // Setup event callback that will listen for serial communication coming from the HMI
             serialPort.DataReceived += new SerialDataReceivedEventHandler(DataRecievedHandler);
 
@@ -265,8 +268,8 @@ internal class Program
     private static void FillClosed(SerialPort sp)
     {
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Fill Closed\"}>ET");
-        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainClosed\",\"visible\": true}>ET");
-        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainOpen\",\"visible\": false}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOff\",\"visible\": true}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOn\",\"visible\": false}>ET");
     }
 
     /// <summary>
@@ -276,8 +279,9 @@ internal class Program
     private static void FillOpen(SerialPort sp)
     {
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Fill Open\"}>ET");
-        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainClosed\",\"visible\": false}>ET");
-        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainOpen\",\"visible\": true}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOff\",\"visible\": false}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOn\",\"visible\": true}>ET");
+        
     }
 
    
