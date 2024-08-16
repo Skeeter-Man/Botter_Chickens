@@ -9,12 +9,7 @@ internal class Program
     #region Main Code Block
     // Start of Main Code Block #########################################################################
 
-    // Get pin values from appsettings.
-    const int LightGPIO = config.GetValue<int>("GpioPinSettings:Lights") ?? 0; // This will finde the section named 'GpioPinSettings' and the value of 'Lights'. If not found it will set the value to zero
-    const int DrainGPIO = config.GetValue<int>("GpioPinSettings:Drain") ?? 0; // This will finde the section named 'GpioPinSettings' and the value of 'Drain'. If not found it will set the value to zero
-    const int WaterGPIO = config.GetValue<int>("GpioPinSettings:Water") ?? 0; // This will finde the section named 'GpioPinSettings' and the value of 'Water'. If not found it will set the value to zero
-    const int TempGPIO = config.GetValue<int>("GpioPinSettings:Temp") ?? 0; // This will finde the section named 'GpioPinSettings' and the value of 'Temp'. If not found it will set the value to zero
-    const int FanGPIO = config.GetValue<int>("GpioPinSettings:Fan") ?? 0; // This will finde the section named 'GpioPinSettings' and the value of 'Fan'. If not found it will set the value to zero
+ 
 
     private static void Main(string[] args)
     {
@@ -47,7 +42,11 @@ internal class Program
             serialPort.Handshake = Handshake.None;
 
             //GPIO Values from appsettings.json
-            int Fan = int.Parse(config.GetValue<string>("GpioPinSettings:Fan") ?? "");
+            int LightGPIO = config.GetValue<int>("GpioPinSettings:Lights"); // This will finde the section named 'GpioPinSettings' and the value of 'Lights'. If not found it will set the value to zero
+            int DrainGPIO = config.GetValue<int>("GpioPinSettings:Drain"); // This will finde the section named 'GpioPinSettings' and the value of 'Drain'. If not found it will set the value to zero
+            int WaterGPIO = config.GetValue<int>("GpioPinSettings:Water"); // This will finde the section named 'GpioPinSettings' and the value of 'Water'. If not found it will set the value to zero
+            int TempGPIO = config.GetValue<int>("GpioPinSettings:Temp"); // This will finde the section named 'GpioPinSettings' and the value of 'Temp'. If not found it will set the value to zero
+            int FanGPIO = config.GetValue<int>("GpioPinSettings:Fan"); // This will finde the section named 'GpioPinSettings' and the value of 'Fan'. If not found it will set the value to zero
 
             // Setup event callback that will listen for serial communication coming from the HMI
             serialPort.DataReceived += new SerialDataReceivedEventHandler(DataRecievedHandler);
@@ -250,7 +249,7 @@ internal class Program
     /// <param name="hexData"></param>
     private static void DrainClosed(SerialPort sp)
     {
-
+        ModifyGpioPinState(DrainGPIO, PinValue.Low);
         // Modify the HMI display
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Drain_Status\",\"text\":\"Drain Closed\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainClosed\",\"visible\": true}>ET");
@@ -264,6 +263,8 @@ internal class Program
     /// <param name="hexData"></param>
     private static void DrainOpen(SerialPort sp)
     {
+        ModifyGpioPinState(DrainGPIO, PinValue.High);
+
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Drain_Status\",\"text\":\"Drain Open\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainClosed\",\"visible\": false}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"DrainOpen\",\"visible\": true}>ET");
@@ -277,6 +278,8 @@ internal class Program
     /// <param name="hexData"></param>
     private static void FanOff(SerialPort sp)
     {
+        ModifyGpioPinState(FanGPIO, PinValue.Low);
+
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Fan_Status\",\"text\":\"Fan Off\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOff\",\"visible\": true}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOn\",\"visible\": false}>ET");
@@ -288,6 +291,9 @@ internal class Program
     /// <param name="sp"></param>
     private static void FanOn(SerialPort sp)
     {
+
+        ModifyGpioPinState(FanGPIO, PinValue.High);
+
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Fan_Status\",\"text\":\"Fan On\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOff\",\"visible\": false}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"FanOn\",\"visible\": true}>ET");
@@ -300,6 +306,8 @@ internal class Program
     /// <param name="hexData"></param>
     private static void FillClosed(SerialPort sp)
     {
+        ModifyGpioPinState(WaterGPIO, PinValue.High);
+
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Fill Closed\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOff\",\"visible\": true}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOn\",\"visible\": false}>ET");
@@ -311,6 +319,8 @@ internal class Program
     /// <param name="sp"></param>
     private static void FillOpen(SerialPort sp)
     {
+        ModifyGpioPinState(WaterGPIO, PinValue.High);
+
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Fill Open\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOff\",\"visible\": false}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOn\",\"visible\": true}>ET");
