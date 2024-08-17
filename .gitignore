@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+src/ChickenControl-Dotnet8/.vs/ChickenControl-Dotnet8/v17/.futdcache.v2
+src/ChickenControl-Dotnet8/.vs/ChickenControl-Dotnet8/v17/.suo
+src/ChickenControl-Dotnet8/.vs/ChickenControl-Dotnet8/v17/DocumentLayout.json

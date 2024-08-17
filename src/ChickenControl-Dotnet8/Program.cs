@@ -230,7 +230,7 @@ internal class Program
         var pin = GetPinNumberByName("Lights");
 
         // Change pin state to high
-        ModifyGpioPinState(pin, PinValue.Low);
+        ModifyGpioPinState(pin, PTasinValue.Low);
 
         // Modify the HMI display
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Light_Status\",\"text\":\"Lights Off\"}>ET");
