@@ -199,7 +199,7 @@ internal class Program
     /// <param name="pinValue"></param>
     private static void ModifyGpioPinState(int pinNumber, PinValue pinValue)
     {
-        using (var gpioController = new GpioController())
+        using (var gpioController = new GpioController(PinNumberingScheme.Logical))
         {
             gpioController.OpenPin(pinNumber, PinMode.Output);
             gpioController.Write(pinNumber, pinValue);
@@ -230,7 +230,7 @@ internal class Program
         var pin = GetPinNumberByName("Lights");
 
         // Change pin state to high
-        ModifyGpioPinState(pin, PTasinValue.Low);
+        ModifyGpioPinState(pin, PinValue.Low);
 
         // Modify the HMI display
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Light_Status\",\"text\":\"Lights Off\"}>ET");
