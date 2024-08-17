@@ -39,11 +39,11 @@ internal class Program
             serialPort.Handshake = Handshake.None;
 
             //GPIO Values from appsettings.json            
-            int LightGPIO = config.GetValue<int>("GpioPinSettings:Lights"); // This will finde the section named 'GpioPinSettings' and the value of 'Lights'. If not found it will set the value to zero
-            int DrainGPIO = config.GetValue<int>("GpioPinSettings:Drain"); // This will finde the section named 'GpioPinSettings' and the value of 'Drain'. If not found it will set the value to zero
-            int WaterGPIO = config.GetValue<int>("GpioPinSettings:Water"); // This will finde the section named 'GpioPinSettings' and the value of 'Water'. If not found it will set the value to zero
-            int TempGPIO = config.GetValue<int>("GpioPinSettings:Temp"); // This will finde the section named 'GpioPinSettings' and the value of 'Temp'. If not found it will set the value to zero
-            int FanGPIO = config.GetValue<int>("GpioPinSettings:Fan"); // This will finde the section named 'GpioPinSettings' and the value of 'Fan'. If not found it will set the value to zero
+            //int LightGPIO = config.GetValue<int>("GpioPinSettings:Lights"); // This will finde the section named 'GpioPinSettings' and the value of 'Lights'. If not found it will set the value to zero
+            //int DrainGPIO = config.GetValue<int>("GpioPinSettings:Drain"); // This will finde the section named 'GpioPinSettings' and the value of 'Drain'. If not found it will set the value to zero
+            //int WaterGPIO = config.GetValue<int>("GpioPinSettings:Water"); // This will finde the section named 'GpioPinSettings' and the value of 'Water'. If not found it will set the value to zero
+            //int TempGPIO = config.GetValue<int>("GpioPinSettings:Temp"); // This will finde the section named 'GpioPinSettings' and the value of 'Temp'. If not found it will set the value to zero
+            //int FanGPIO = config.GetValue<int>("GpioPinSettings:Fan"); // This will finde the section named 'GpioPinSettings' and the value of 'Fan'. If not found it will set the value to zero
 
             // Setup event callback that will listen for serial communication coming from the HMI
             serialPort.DataReceived += new SerialDataReceivedEventHandler(DataRecievedHandler);
@@ -328,7 +328,7 @@ internal class Program
     {
         var pin = GetPinNumberByName("Water");
 
-        ModifyGpioPinState(pin, PinValue.High);
+        ModifyGpioPinState(pin, PinValue.Low);
 
         sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Fill Closed\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOff\",\"visible\": true}>ET");
@@ -341,7 +341,7 @@ internal class Program
     /// <param name="sp"></param>
     private static void WaterOn(SerialPort sp)
     {
-        var pin = GetPinNumberByName("Fan");
+        var pin = GetPinNumberByName("Water");
 
         ModifyGpioPinState(pin, PinValue.High);
 
