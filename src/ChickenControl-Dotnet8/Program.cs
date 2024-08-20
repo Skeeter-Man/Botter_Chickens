@@ -6,7 +6,7 @@ using System.Device.Gpio;
 internal class Program
 {
     #region Main Code Block
-    // Start of Main Code Block ######################################################################### 
+    //####################################################################### Start of Main Code Block ######################################################################### 
 
     private static void Main(string[] args)
     {
@@ -38,13 +38,6 @@ internal class Program
             serialPort.DataBits = 8;
             serialPort.Handshake = Handshake.None;
 
-            //GPIO Values from appsettings.json            
-            //int LightGPIO = config.GetValue<int>("GpioPinSettings:Lights"); // This will finde the section named 'GpioPinSettings' and the value of 'Lights'. If not found it will set the value to zero
-            //int DrainGPIO = config.GetValue<int>("GpioPinSettings:Drain"); // This will finde the section named 'GpioPinSettings' and the value of 'Drain'. If not found it will set the value to zero
-            //int WaterGPIO = config.GetValue<int>("GpioPinSettings:Water"); // This will finde the section named 'GpioPinSettings' and the value of 'Water'. If not found it will set the value to zero
-            //int TempGPIO = config.GetValue<int>("GpioPinSettings:Temp"); // This will finde the section named 'GpioPinSettings' and the value of 'Temp'. If not found it will set the value to zero
-            //int FanGPIO = config.GetValue<int>("GpioPinSettings:Fan"); // This will finde the section named 'GpioPinSettings' and the value of 'Fan'. If not found it will set the value to zero
-
             // Setup event callback that will listen for serial communication coming from the HMI
             serialPort.DataReceived += new SerialDataReceivedEventHandler(DataRecievedHandler);
 
@@ -75,11 +68,11 @@ internal class Program
         }
     }
 
-    // End of Main Code Block #########################################################################
+    // ################################################################End of Main Code Block #########################################################################
     #endregion
 
     #region Methods/Functions
-    // Methods ########################################################################################
+    //#################################################################  Methods ########################################################################################
 
     /// <summary>
     /// Retrieve the last state of the connectted devices. States may be stored in a Database or in a text file. 
@@ -165,6 +158,8 @@ internal class Program
         // toggle on
         if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 10 00 08 73 77 69 74 63 68 31 01 3E 45 54 F7 B8"))
         {
+            //DateTime currentDate = DateTime.Now;
+            Console.writeline(currentTime.ToString("dd:mm:y hh:mm:ss")
             ToggleOn(sp);
         }
 
