@@ -55,7 +55,11 @@ internal class Program
 
             GetLastStates();
 
-            Console.ReadKey();
+            //Console.ReadKey();
+
+            while(true) 
+            {
+            }
         }
         catch (Exception ex)
         {
@@ -320,7 +324,7 @@ internal class Program
     }
 
     /// <summary>
-    /// Method to Close Drain
+    /// Method to Turn Off Water
     /// </summary>
     /// <param name="sp"></param>
     /// <param name="hexData"></param>
@@ -330,13 +334,13 @@ internal class Program
 
         ModifyGpioPinState(pin, PinValue.Low);
 
-        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Fill Closed\"}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Water Off\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOff\",\"visible\": true}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOn\",\"visible\": false}>ET");
     }
 
     /// <summary>
-    /// Method to Open Drain
+    /// Method to Turn On Water
     /// </summary>
     /// <param name="sp"></param>
     private static void WaterOn(SerialPort sp)
@@ -345,7 +349,7 @@ internal class Program
 
         ModifyGpioPinState(pin, PinValue.High);
 
-        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Fill Open\"}>ET");
+        sp.Write("ST<{\"cmd_code\":\"set_text\",\"type\":\"label\",\"widget\":\"Water_Fill_Status\",\"text\":\"Water On\"}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOff\",\"visible\": false}>ET");
         sp.Write("ST<{\"cmd_code\":\"set_visible\",\"type\":\"widget\",\"widget\":\"WaterOn\",\"visible\": true}>ET");
 
