@@ -2,12 +2,17 @@
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Device.Gpio;
+ //TBB Added 8/20/24###############
+using System.Timers;
+//TBB Added 8/20/24 end###############
 
 internal class Program
 {
     #region Main Code Block
     //####################################################################### Start of Main Code Block ######################################################################### 
-
+   //TBB Added 8/20/24###############
+    private static Timer waterTimer;
+    //TBB Added 8/20/24 end###############
     private static void Main(string[] args)
     {
         // Start of app
@@ -49,7 +54,12 @@ internal class Program
             GetLastStates();
 
             //Console.ReadKey();
-
+            
+            //TBB Added 8/20/24 ###############
+            // Set up daily water schedule
+            ScheduleDailyWatering();
+            //TBB Added 8/20/24 end###############
+            
             while(true) 
             {
             }
@@ -75,7 +85,7 @@ internal class Program
     //#################################################################  Methods ########################################################################################
 
     /// <summary>
-    /// Retrieve the last state of the connectted devices. States may be stored in a Database or in a text file. 
+    /// Retrieve the last state of the connected devices. States may be stored in a Database or in a text file. 
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
     private static void GetLastStates()
@@ -350,7 +360,29 @@ internal class Program
 
     }
 
+//TBB Added 8/20/24 end###############
+    private static void ScheduleDailyWatering()
+    {
+        var triggerTime = new TimeSpan(18, 0, 0); // Set the desired time for watering (e.g., 6:00 PM)
+        var currentTime = DateTime.Now.TimeOfDay;
+        var firstTrigger = triggerTime > currentTime ? triggerTime - currentTime : triggerTime.Add(new TimeSpan(24, 0, 0)) - currentTime;
 
+        waterTimer = new Timer(firstTrigger.TotalMilliseconds);
+        waterTimer.Elapsed += (sender, e) =>
+        {
+            WaterOn(null);
+            System.Threading.Thread.Sleep(300000); // Wait for 5 minutes (300,000 milliseconds)
+            WaterOff(null);
+
+            // Schedule the next run
+            waterTimer.Interval = TimeSpan.FromDays(1).TotalMilliseconds;
+        };
+
+        waterTimer.Start();
+    }
+//TBB Added  End 8/20/24 end###############
+
+                              
     // Methods ########################################################################################
     #endregion
 }
