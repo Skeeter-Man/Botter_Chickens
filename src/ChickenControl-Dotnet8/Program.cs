@@ -170,7 +170,7 @@ internal class Program
         if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 10 00 08 73 77 69 74 63 68 31 01 3E 45 54 F7 B8"))
         {
             //DateTime currentDate = DateTime.Now;
-            Console.WriteLine(currentTime.ToString("dd:mm:y hh:mm:ss")
+          //  Console.WriteLine(currentTime.ToString("dd:mm:y hh:mm:ss");
             ToggleOn(sp);
         }
 
