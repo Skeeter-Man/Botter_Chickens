@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System.Device.Gpio;
  //TBB Added 8/20/24###############
 using System.Timers;
+using System.Threading;
 //TBB Added 8/20/24 end###############
 
 internal class Program
@@ -169,7 +170,7 @@ internal class Program
         if (hexData.Length > 0 && hexData.Contains("53 54 3C 10 10 00 08 73 77 69 74 63 68 31 01 3E 45 54 F7 B8"))
         {
             //DateTime currentDate = DateTime.Now;
-            Console.writeline(currentTime.ToString("dd:mm:y hh:mm:ss")
+            Console.WriteLine(currentTime.ToString("dd:mm:y hh:mm:ss")
             ToggleOn(sp);
         }
 
@@ -363,15 +364,15 @@ internal class Program
 //TBB Added 8/20/24 end###############
     private static void ScheduleDailyWatering()
     {
-        var triggerTime = new TimeSpan(18, 0, 0); // Set the desired time for watering (e.g., 6:00 PM)
+        var triggerTime = new TimeSpan(6, 0, 0); // Set the desired time for watering (e.g., 6:00 PM)
         var currentTime = DateTime.Now.TimeOfDay;
         var firstTrigger = triggerTime > currentTime ? triggerTime - currentTime : triggerTime.Add(new TimeSpan(24, 0, 0)) - currentTime;
 
         waterTimer = new Timer(firstTrigger.TotalMilliseconds);
-        waterTimer.Elapsed += (sender, e) =>
+        waterTimer.Elapsed += async (sender, e) =>
         {
             WaterOn(null);
-            System.Threading.Thread.Sleep(300000); // Wait for 5 minutes (300,000 milliseconds)
+            await Task.Delay(3000); // Wait for 5 minutes (300,000 milliseconds)
             WaterOff(null);
 
             // Schedule the next run
