@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using System.Device.Gpio;
  //TBB Added 8/20/24###############
 //using System.Timers;
-//using System.Threading;
+using System.Threading;
 //TBB Added 8/20/24 end###############
 
 internal class Program
@@ -12,7 +12,7 @@ internal class Program
     #region Main Code Block
     //####################################################################### Start of Main Code Block ######################################################################### 
    //TBB Added 8/20/24###############
-    //private static System.Timers.Timer waterTimer;
+    private static Timer waterTimer;
     //TBB Added 8/20/24 end###############
     private static void Main(string[] args)
     {
@@ -58,7 +58,7 @@ internal class Program
             
             //TBB Added 8/20/24 ###############
             // Set up daily water schedule
-           // ScheduleDailyWatering();
+            ScheduleDailyWatering();
             //TBB Added 8/20/24 end###############
             
             while(true) 
@@ -362,8 +362,8 @@ internal class Program
     }
 
 //TBB Added 8/20/24 end###############
-  /*  private static void ScheduleDailyWatering()
-    {
+   private static void ScheduleDailyWatering()
+    { /*
         var triggerTime = new TimeSpan(6, 0, 0); // Set the desired time for watering (e.g., 6:00 PM)
         var currentTime = DateTime.Now.TimeOfDay;
         var firstTrigger = triggerTime > currentTime ? triggerTime - currentTime : triggerTime.Add(new TimeSpan(24, 0, 0)) - currentTime;
@@ -379,10 +379,10 @@ internal class Program
             waterTimer.Interval = TimeSpan.FromDays(1).TotalMilliseconds;
         };
 
-        waterTimer.Start();
+        waterTimer.Start(); */
     }
 //TBB Added  End 8/20/24 end###############
-*/
+
                               
     // Methods ########################################################################################
     #endregion
